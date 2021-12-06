@@ -13,11 +13,11 @@ El objetivo ahora es realizar una prueba similar, pero soportada esta vez sobre 
 
 Los puntos de entrada del backend Boletia serán los mismos, lo que ahora el acceso es a través de Api Gateway, conectados a funciones Lambda. Los datos estarán soportados sobre DynamoDB.
 
-En el esquema del inicio ahora los cilindros son tablas de DynamoDB y los hexágonos conjunto de funciones Lambda. Para la comunicación entre los microservicios, en lugar de Kafka,  usamos ahora DynamoDB Streams, que disparan funciones Lambda.
+En el esquema del inicio ahora los cilindros son tablas de DynamoDB y los hexágonos conjuntos de funciones Lambda. Para la comunicación entre los microservicios, en lugar de Kafka,  usamos ahora DynamoDB Streams, que disparan funciones Lambda.
 
 El esquema del Api Gateway definido está en apiGateway/Boletia-produccion-oas30-apigateway.yaml. Describamos los puntos de llamada del backend:
 
-Dominio Eventos.
+Dominio Admin.
 
 Como en el repositorio anterior, este dominio gestiona los eventos y mediante llamadas a funciones Lambda actualiza la tabla evento, cuya estructura es:
 
