@@ -28,7 +28,7 @@ Como en el repositorio anterior, este dominio gestiona los eventos y mediante ll
 
 El código de las funciones Lambda en /eventos.
 
-| Endpoint          | Método | Lambda       | Operación DynamoDB | Operación DynamoDB                                   |
+| Endpoint          | Método | Lambda       | Operación DynamoDB | Resultado                                            |
 | ----------------- | ------ | ------------ | ------------------ | ---------------------------------------------------- |
 | /eventos          | GET    | findAll      | Scan               | Recupera todos los eventos                           |
 | /eventos/{Evento} | GET    | findOne      | getItem            | Recupera el evento "Evento"                          |
@@ -95,7 +95,7 @@ Para ofrecer las posibilidades de consulta que requerirá el frontend, se define
 
 Las llamadas para el dominio Reservas son:
 
-| Endpoint                   | Método | Lambda                  | Operación DynamoDB        | Operación DynamoDB                                                |
+| Endpoint                   | Método | Lambda                  | Operación DynamoDB        | Resultado                                                         |
 | -------------------------- | ------ | ----------------------- | ------------------------- | ----------------------------------------------------------------- |
 | /reservas/eventos          | GET    | findAllEventos          | Query                     | Recupera todos los eventos (en inventario)                        |
 | /reservas/eventos/{Evento} | GET    | findOneEvento           | getItem                   | Recupera el evento "Evento" (en inventario)                       |
