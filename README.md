@@ -9,13 +9,25 @@ https://github.com/avaco2312/boletia-kubernetes-kafka-mongodb
 https://github.com/avaco2312/kubernetes-kafka-cluster
 https://github.com/avaco2312/kubernetes-mongodb-replicaset
 
-El objetivo ahora es realizar una prueba similar, pero soportada esta vez sobre los servicios Serverless de Amazon Web Services. Usaremos los servicios Api Gateway, Lambda, DynamoDB y DynamoDB Streams.
+El objetivo ahora es realizar una prueba similar, pero soportada esta vez sobre los servicios Serverless de Amazon Web Services. Usaremos los servicios Api Gateway, Lambda, DynamoDB, DynamoDB Streams y Cognito.
 
 Los puntos de entrada del backend Boletia serán los mismos, lo que ahora el acceso es a través de Api Gateway, conectados a funciones Lambda. Los datos estarán soportados sobre DynamoDB.
 
 En el esquema del inicio ahora los cilindros son tablas de DynamoDB y los hexágonos conjuntos de funciones Lambda. Para la comunicación entre los microservicios, en lugar de Kafka,  usamos ahora DynamoDB Streams, que disparan funciones Lambda.
 
-El esquema del Api Gateway definido está en apiGateway/Boletia-produccion-oas30-apigateway.yaml. Describamos los puntos de llamada del backend:
+El esquema del Api Gateway definido está en apiGateway/Boletia-produccion-oas30-apigateway.yaml. 
+
+Los puntos de entrada del API Gateway están protegidos mediante autenticación de AWS Cognito. Será necesario, previo a una llamada al API, solicitar un token de acceso en el punto de entrada /token, suministrando el nombre y password de usuario:
+
+```code
+curl -X POST https://oy7rgdejtk.execute-api.us-west-2.amazonaws.com/produccion/token
+-d '{
+    "username":"nombre","password": "password"
+}'
+```
+El token obtenido deberá agregarse como header "Authorization" en cada llamada al API.
+
+Describamos los puntos de llamada del backend:
 
 Dominio Admin.
 
@@ -301,7 +313,7 @@ Su reserva 21tC9y2lJr3Aj1RQu6miT5usxf0 de 3 boletos para el evento Opera Aida fu
 Su reserva 21tY2WfhKPDj0TDulNRlu2yszl4 de 1 boletos para el evento Opera Aida fue cancelada, el evento fue suspendido por los organizadores
 ```
 
-Todo el deploy de Boletia en AWS pudiera hacerse automáticamente. Aquí lo hemos hecho mediante la consola AWS web. A lo mejor en un próximo proyecto lo presentamos, así como proteger nuestra API con Cognito, etc. Pero por el momento, habría muchos detalles por ver, pero uno resalta por su importancia: los permisos. A todas las funciones lambda que usamos hay que concederle los permisos que necesitan. Sin entrar en los detalles:
+Todo el deploy de Boletia en AWS pudiera hacerse automáticamente. Aquí lo hemos hecho mediante la consola AWS web. A lo mejor en un próximo proyecto lo desarrollamos, pero por el momento, hay muchos detalles por ver y uno resalta por su importancia: los permisos. A todas las funciones lambda que usamos hay que concederle los permisos que necesitan. Sin entrar en los detalles:
 
 - Todas necesitan el permiso básico de ejecución, mediante la política AWSLambdaBasicExecutionRole.
 - A las que son llamadas por API Gateway hay que agregarle los permisos para las operaciones de DynamoDB que ejecuten. Por ejemplo, para la función findReservaId una política adicional expresada por :
