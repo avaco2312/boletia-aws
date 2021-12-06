@@ -1,6 +1,6 @@
 ## Prueba de concepto: Boletia, una aplicación para venta de boletos,  basada en microservicios event-driven.
 
-**Desarrollada sobre AWS Serverless: Api Gateway, Lambda, DynamoDB, DynamoDB Streams**
+**Desarrollada sobre AWS Serverless: Api Gateway, Lambda, DynamoDB, DynamoDB Streams, Cognito**
 
 ![Boletia](Boletia2.png)
 En repositorios anteriores realizamos la prueba de concepto de la aplicación Boletia en un ambiente Kubernetes con Kafka (3 brokers) y MongoDB (3 réplicas).
